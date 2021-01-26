@@ -463,7 +463,11 @@ class AuthorizationBuilder extends TransactionBuilder
      *
      */
     public $transactionInitiator;
-
+    
+    /**
+     * @var string
+     */
+    public $authCode;
     /**
      * {@inheritdoc}
      *
@@ -487,7 +491,10 @@ class AuthorizationBuilder extends TransactionBuilder
     public function execute(string $configName = 'default')
     {
         parent::execute($configName);
-        
+    
+        /**
+         * @var \GlobalPayments\Api\Gateways\RealexConnector $client
+         */
         $client = ServicesContainer::instance()->getClient($configName);
         return $client->processAuthorization($this);
     }
@@ -585,6 +592,10 @@ class AuthorizationBuilder extends TransactionBuilder
                 ->check('accountHolderName')->isNotNullInSubProperty('paymentMethod');
     }
 
+    public function withAuthCode($code) {
+        $this->authCode = $code;
+        return $this;
+    }
     /**
      * Set an address value; where applicable.
      *

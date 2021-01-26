@@ -128,7 +128,11 @@ class ManagementBuilder extends TransactionBuilder
      * @var string
      */
     public $payerAuthenticationResponse;
-
+    
+    /**
+     * @var string
+     */
+    public $authCode;
     /**
      * {@inheritdoc}
      *
@@ -187,9 +191,13 @@ class ManagementBuilder extends TransactionBuilder
     public function execute(string $configName = 'default')
     {
         parent::execute($configName);
-        return ServicesContainer::instance()
-            ->getClient($configName)
-            ->manageTransaction($this);
+        /**
+         * @var \GlobalPayments\Api\Gateways\RealexConnector $client
+         */
+        $client = ServicesContainer::instance()
+            ->getClient($configName);
+        
+        return $client->manageTransaction($this);
     }
 
     /**
@@ -229,6 +237,11 @@ class ManagementBuilder extends TransactionBuilder
             ->check('paymentMethod')->isInstanceOf(CreditCardData::class);
     }
 
+    public function withAuthCode($code) {
+        $this->authCode = $code;
+        return $this;
+    }
+    
     /**
      * Sets the current transaction's amount.
      *
