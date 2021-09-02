@@ -1,5 +1,5 @@
 {
-  "name": "CommerGroup/globalpay-php-sdk",
+  "name": "commergroup/globalpay-php-sdk",
   "description": "PHP SDK for processing payments with Global Payments, including Heartland Payment Systems and Realex Payments",
   "keywords": [
   ],
